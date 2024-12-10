@@ -1,6 +1,7 @@
 package com.betaplan.anjeza.store.controller;
 
 import com.betaplan.anjeza.store.model.Product;
+import com.betaplan.anjeza.store.service.CategoryService;
 import com.betaplan.anjeza.store.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,11 @@ public class ProductController {
 //    @Autowired
 //    private ProductService service;
 
+    private final CategoryService categoryService;
     private final ProductService service;
 
-    public ProductController(ProductService service) {
+    public ProductController(CategoryService categoryService, ProductService service) {
+        this.categoryService = categoryService;
         this.service = service;
     }
 
@@ -31,7 +34,9 @@ public class ProductController {
     }
 
     @GetMapping("/product/new")
-    public String addNewProduct(@ModelAttribute Product product) {
+    public String addNewProduct(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.findAll());
         return "product";
     }
 

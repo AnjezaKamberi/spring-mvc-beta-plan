@@ -26,6 +26,32 @@
     <form:label path="quantity">Quantity:</form:label>
     <form:input type="number" path="quantity"/>
     <form:errors path="quantity"/> <br/>
+
+    <!-- Category Selection -->
+    <form:label path="category.id">Category:</form:label>
+    <form:select path="category.id">
+        <form:option value="" label="Select Category"/>
+        <c:forEach var="category" items="${categories}">
+            <form:option value="${category.id}" label="${category.name}"/>
+        </c:forEach>
+    </form:select>
+    <form:errors path="category.id"/> <br/>
+
+    <!-- Product Details: Description -->
+    <h2>Product Details</h2>
+    <form:label path="productDetails.description">DEscription:</form:label>
+    <form:input type="text" path="productDetails.description"/>
+    <form:errors path="productDetails.description"/> <br/>
+
+    <!-- Product Details: Manufacturer -->
+    <form:label path="productDetails.manufacturer">Manufacturer:</form:label>
+    <form:input type="text" path="productDetails.manufacturer"/>
+    <form:errors path="productDetails.manufacturer"/> <br/>
+
+    <!-- Product Details: Warranty Period -->
+    <form:label path="productDetails.warrantyPeriod">Warranty Period:</form:label>
+    <form:input type="text" path="productDetails.warrantyPeriod"/>
+    <form:errors path="productDetails.warrantyPeriod"/> <br/>
     <button>Add new product</button>
 
 </form:form>

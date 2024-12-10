@@ -21,6 +21,8 @@
     <th>NAME</th>
     <th>DESCRIPTION</th>
     <th>QUANTITY</th>
+    <th>CATEGORY</th>
+    <th>DETAILS</th>
     <th>ACTIONS</th>
     </thead>
     <tbody>
@@ -29,6 +31,13 @@
             <td><a href="/product/${product.id}"><c:out value="${product.name}"/></a></td>
             <td><c:out value="${product.description}"/></td>
             <td><c:out value="${product.quantity}"/></td>
+            <td><c:out value="${product.category.name}"/></td>
+            <td>
+                <c:if test="${product.productDetails != null}">
+                    <strong>Manufacturer:</strong> <c:out value="${product.productDetails.manufacturer}"/><br/>
+                    <strong>Warranty:</strong> <c:out value="${product.productDetails.warrantyPeriod}"/><br/>
+                </c:if>
+            </td>
             <td><a href="/product/edit/${product.id}">Update</a> <a href="/product/delete/${product.id}">Delete</a></td>
         </tr>
     </c:forEach>
