@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class Product {
     private Integer id;
 
     @NotBlank(message = "Emri nuk mund te jete bosh")
-    @Size(min=3, max=100)
+    @Size(min = 3, max = 100)
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -39,6 +41,18 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private Set<Order> orders = new HashSet<>();
+
+    @Column(name = "created_at", updatable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createdAt;
+
+    @Column(name = "modified_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate modifiedAt;
+
+    @ManyToOne
+    @JoinColumn(name="created_by", referencedColumnName = "id")
+    private User createdBy;
 
     public Product() {
 
@@ -104,5 +118,39 @@ public class Product {
 
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDate getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDate modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.modifiedAt = LocalDate.now();
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 }

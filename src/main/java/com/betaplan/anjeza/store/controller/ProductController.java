@@ -1,8 +1,10 @@
 package com.betaplan.anjeza.store.controller;
 
 import com.betaplan.anjeza.store.model.Product;
+import com.betaplan.anjeza.store.model.User;
 import com.betaplan.anjeza.store.service.CategoryService;
 import com.betaplan.anjeza.store.service.ProductService;
+import com.betaplan.anjeza.store.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 //@RequestMapping("/product")
@@ -21,10 +24,12 @@ public class ProductController {
 
     private final CategoryService categoryService;
     private final ProductService service;
+    private final UserService userService;
 
-    public ProductController(CategoryService categoryService, ProductService service) {
+    public ProductController(CategoryService categoryService, ProductService service, UserService userService) {
         this.categoryService = categoryService;
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping("/all-products")
@@ -49,12 +54,16 @@ public class ProductController {
 
     @PostMapping("/product/create")
     public String createProduct(@Valid @ModelAttribute Product product, BindingResult result, HttpSession session) {
-        if (session.getAttribute("userId") == null) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (Objects.isNull(userId)) {
+//        if (userId == null) {
             return "redirect:/login";  // Redirect to login page if not logged in
         }
         if (result.hasErrors()) {
             return "product";
         } else {
+            User user = userService.findById(userId);
+            product.setCreatedBy(user);
             service.doAnActionOnProduct(product);
             return "redirect:/all-products";
         }
@@ -69,6 +78,7 @@ public class ProductController {
 
         Product product = service.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("categories", categoryService.findAll());
         return "updateProduct";
     }
 

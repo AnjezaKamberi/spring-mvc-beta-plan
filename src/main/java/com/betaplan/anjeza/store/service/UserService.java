@@ -22,6 +22,10 @@ public class UserService {
             result.rejectValue("email", "error.user", "This email is already in use.");
         }
 
+        if (!user.getPassword().equals(user.getConfirm())) {
+            result.rejectValue("confirm", "error.confirm", "Confirm password does not match with ur password");
+        }
+
         // Save user only if no errors
         if (!result.hasErrors()) {
             // Hash the password and save to the database
@@ -40,6 +44,10 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public User findById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 
 }
