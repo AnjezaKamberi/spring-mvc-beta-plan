@@ -27,6 +27,14 @@
     <form:label path="quantity">Quantity:</form:label>
     <form:input type="number" path="quantity"/>
     <form:errors path="quantity"/> <br/>
+    <form:label path="category.id">Category:</form:label>
+    <form:select path="category.id">
+        <form:option value="" label="Select Category"/>
+        <c:forEach var="category" items="${categories}">
+            <form:option value="${category.id}" label="${category.name}"/>
+        </c:forEach>
+    </form:select>
+    <form:errors path="category.id"/> <br/>
     <button>Update product</button>
 
 </form:form>

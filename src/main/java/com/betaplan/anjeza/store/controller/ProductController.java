@@ -55,12 +55,16 @@ public class ProductController {
 
     @PostMapping("/product/create")
     public String createProduct(@Valid @ModelAttribute Product product, BindingResult result, HttpSession session) {
-        if (session.getAttribute("userId") == null) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (Objects.isNull(userId)) {
+//        if (userId == null) {
             return "redirect:/login";  // Redirect to login page if not logged in
         }
         if (result.hasErrors()) {
             return "product";
         } else {
+            User user = userService.findById(userId);
+            product.setCreatedBy(user);
             service.doAnActionOnProduct(product);
             return "redirect:/all-products";
         }
@@ -75,6 +79,7 @@ public class ProductController {
 
         Product product = service.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("categories", categoryService.findAll());
         return "updateProduct";
     }
 
@@ -113,7 +118,7 @@ public class ProductController {
 
     private boolean isAdmin(Integer userId) {
 
-        User user = userService.getUserById(userId);
+        User user = userService.findById(userId);
 
         return Objects.equals(Role.ADMIN, user.getRole());
     }

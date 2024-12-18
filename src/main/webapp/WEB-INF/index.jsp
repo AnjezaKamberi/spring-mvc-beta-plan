@@ -57,7 +57,8 @@
             </td>
 
             <!-- Display Update and Delete links only if the user is logged in -->
-            <c:if test='<%= request.getSession().getAttribute("userId")!=null %>'>
+<%--            <c:if test='<%= request.getSession().getAttribute("userId")!=null %>'>--%>
+            <c:if test= "${not empty sessionScope.userId && product.createdBy.id== sessionScope.userId}">
             <td>
                     <a href="/product/edit/${product.id}">Update</a>
                     <a href="/product/delete/${product.id}">Delete</a>
