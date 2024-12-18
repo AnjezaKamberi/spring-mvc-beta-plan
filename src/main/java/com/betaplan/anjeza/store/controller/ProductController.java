@@ -1,8 +1,11 @@
 package com.betaplan.anjeza.store.controller;
 
+import com.betaplan.anjeza.store.enums.Role;
 import com.betaplan.anjeza.store.model.Product;
+import com.betaplan.anjeza.store.model.User;
 import com.betaplan.anjeza.store.service.CategoryService;
 import com.betaplan.anjeza.store.service.ProductService;
+import com.betaplan.anjeza.store.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 //@RequestMapping("/product")
@@ -21,10 +25,12 @@ public class ProductController {
 
     private final CategoryService categoryService;
     private final ProductService service;
+    private final UserService userService;
 
-    public ProductController(CategoryService categoryService, ProductService service) {
+    public ProductController(CategoryService categoryService, ProductService service, UserService userService) {
         this.categoryService = categoryService;
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping("/all-products")
@@ -38,7 +44,7 @@ public class ProductController {
     @GetMapping("/product/new")
     public String addNewProduct(Model model, HttpSession session) {
         // Check if the user is logged in (check if session contains loggedInUser)
-        if (session.getAttribute("userId") == null) {
+        if (session.getAttribute("userId") == null || !isAdmin((Integer) session.getAttribute("userId"))) {
             return "redirect:/login-register";  // Redirect to login page if not logged in
         }
 
@@ -103,6 +109,13 @@ public class ProductController {
     public String getProductDetails(@PathVariable Integer id, Model model) {
         model.addAttribute("product", service.getProductById(id));
         return "product-details";
+    }
+
+    private boolean isAdmin(Integer userId) {
+
+        User user = userService.getUserById(userId);
+
+        return Objects.equals(Role.ADMIN, user.getRole());
     }
 
 }

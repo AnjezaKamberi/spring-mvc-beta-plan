@@ -1,5 +1,6 @@
 package com.betaplan.anjeza.store.model;
 
+import com.betaplan.anjeza.store.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,6 +30,9 @@ public class User {
     @NotEmpty(message="Confirm Password is required!")
     @Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
     private String confirm;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Integer getId() {
         return id;
@@ -68,5 +72,13 @@ public class User {
 
     public void setConfirm(@NotEmpty(message = "Confirm Password is required!") @Size(min = 8, max = 128, message = "Confirm Password must be between 8 and 128 characters") String confirm) {
         this.confirm = confirm;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
