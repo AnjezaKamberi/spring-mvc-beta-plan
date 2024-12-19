@@ -18,5 +18,7 @@ name:<c:out value="${product.name}"/>
 description:<c:out value="${product.description}"/>
 quantity:<c:out value="${product.quantity}"/>
 <a href="/all-products">Go Back</a>
+
+
 </body>
 </html>

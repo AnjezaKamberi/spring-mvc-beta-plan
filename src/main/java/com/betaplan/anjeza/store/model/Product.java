@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // LOMBOK
@@ -53,6 +54,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="created_by", referencedColumnName = "id")
     private User createdBy;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
 
     public Product() {
 
@@ -152,5 +156,13 @@ public class Product {
 
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

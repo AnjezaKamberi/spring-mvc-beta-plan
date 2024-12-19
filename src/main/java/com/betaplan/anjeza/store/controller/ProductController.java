@@ -2,6 +2,7 @@ package com.betaplan.anjeza.store.controller;
 
 import com.betaplan.anjeza.store.enums.Role;
 import com.betaplan.anjeza.store.model.Product;
+import com.betaplan.anjeza.store.model.Review;
 import com.betaplan.anjeza.store.model.User;
 import com.betaplan.anjeza.store.service.CategoryService;
 import com.betaplan.anjeza.store.service.ProductService;
@@ -123,4 +124,19 @@ public class ProductController {
         return Objects.equals(Role.ADMIN, user.getRole());
     }
 
+
+    @PostMapping("/product/{productId}/review/add")
+    public String addReview(@PathVariable Integer productId, @ModelAttribute Review review, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null) {
+            User user = userService.findById(userId);
+            Product product = service.getProductById(productId);
+            if (user != null && product != null) {
+                review.setUser(user);
+                review.setProduct(product);
+
+            }
+        }
+        return "redirect:/all-products";
+    }
 }
