@@ -1,16 +1,11 @@
 package com.betaplan.anjeza.store.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-// LOMBOK
 @Entity
 @Table(name = "review")
 public class Review {
@@ -19,10 +14,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    @Min(value = 1, message = "Vlersimi nuk duhet te jete me i vogel se 1")
+    @Max(value = 1, message = "Vlersimi nuk duhet te jete me i madh se 5")
     private Integer star;
     private String comment;
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -90,5 +86,10 @@ public class Review {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.date = LocalDate.now();
     }
 }
