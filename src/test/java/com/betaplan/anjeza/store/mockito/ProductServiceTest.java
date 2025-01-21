@@ -1,5 +1,6 @@
 package com.betaplan.anjeza.store.mockito;
 
+import com.betaplan.anjeza.store.configurations.UserPropertyResolver;
 import com.betaplan.anjeza.store.model.Category;
 import com.betaplan.anjeza.store.model.Product;
 import com.betaplan.anjeza.store.repository.ProductRepository;
@@ -10,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
@@ -30,7 +33,7 @@ public class ProductServiceTest {
     @InjectMocks // service that you want to test
     private ProductService productService;
 
-    @Mock // dependencies being used in class to test
+    @Mock // dependencies beinxg used in class to test
     private ProductRepository productRepository;
 
     // test[MethodName]_[ScenarioBeingTested]_[ExpectedBehavior] or given_when_then

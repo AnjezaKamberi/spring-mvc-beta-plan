@@ -3,10 +3,13 @@ package com.betaplan.anjeza.store.integration.mockmvc;
 import com.betaplan.anjeza.store.model.Category;
 import com.betaplan.anjeza.store.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -20,12 +23,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @AutoConfigureMockMvc
 @SpringBootTest
+@ActiveProfiles("test")
+@Sql(scripts = "classpath:scripts/setup.sql")
 public class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     ObjectMapper mapper = new ObjectMapper();
+
+    @BeforeEach
+    public void setup() {
+        // what to do before each method
+    }
 
     @Test
     public void test_showAllProducts() throws Exception {
