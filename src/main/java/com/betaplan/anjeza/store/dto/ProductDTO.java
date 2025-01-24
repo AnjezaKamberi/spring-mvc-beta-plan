@@ -1,5 +1,18 @@
 package com.betaplan.anjeza.store.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * DTO - Data Transfer Object
+ * - transfer data between layers of the application;
+ * - contain only data that needs to be transferred;
+ * - combine multiple database columns in a single field, or exclude fields from entity that are not needed
+ * - apply validation rules different from entity's internal validation
+ * - keep the BL and PL decoupled from how data is presented and consumed, so u can change one layer without affecting the other
+ */
+@Data
+@NoArgsConstructor
 public class ProductDTO {
 
     private Integer id;
@@ -8,52 +21,6 @@ public class ProductDTO {
     private Integer stock;
     private Integer categoryId;
     private String categoryName;
+    private ProductDetailsDTO productDetails;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
 }
