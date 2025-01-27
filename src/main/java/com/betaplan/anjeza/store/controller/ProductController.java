@@ -45,12 +45,12 @@ public class ProductController {
     @GetMapping("/product/new")
     public String addNewProduct(Model model, HttpSession session) {
         // Check if the user is logged in (check if session contains loggedInUser)
-        if (session.getAttribute("userId") == null || !isAdmin((Integer) session.getAttribute("userId"))) {
-            return "redirect:/login-register";  // Redirect to login page if not logged in
-        }
+//        if (session.getAttribute("userId") == null || !isAdmin((Integer) session.getAttribute("userId"))) {
+//            return "redirect:/login-register";  // Redirect to login page if not logged in
+//        }
 
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "product";
     }
 
@@ -80,7 +80,7 @@ public class ProductController {
 
         Product product = service.getProductById(id);
         model.addAttribute("product", product);
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "updateProduct";
     }
 

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 // LOMBOK
+// DAO - DATA ACCESS OBJECT; Exact database structure of a PRODUCT table
 @Entity
 @Table(name = "product")
 public class Product {
