@@ -1,6 +1,7 @@
 package com.betaplan.anjeza.store.service;
 
 import com.betaplan.anjeza.store.dto.CategoryDTO;
+import com.betaplan.anjeza.store.exceptions.CategoryFoundException;
 import com.betaplan.anjeza.store.model.Category;
 import com.betaplan.anjeza.store.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
@@ -41,13 +42,16 @@ public class CategoryService {
     }
     */
 
-    public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
+    public CategoryDTO saveCategory(CategoryDTO categoryDTO) throws CategoryFoundException{
         Category category;
         if (Objects.nonNull(categoryDTO.getId())) {
             category =  categoryRepository.findById(categoryDTO.getId()).get();
             category.setName(categoryDTO.getDescription());
         } else {
             category = CATEGORY_MAPPER.toEntity(categoryDTO);
+        }
+        if(Objects.nonNull(categoryRepository.findByName(category.getName()))){
+            throw new CategoryFoundException("Category already exists.");
         }
         CategoryDTO savedCategory = CATEGORY_MAPPER.toDTO(categoryRepository.save(category));
         // with DTO's changes are not automatically propagated to the database unless explicitly converted and saved
