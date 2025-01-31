@@ -30,7 +30,7 @@ public class CategoryController {
 
     @PostMapping
     public String saveCategory(@ModelAttribute("category") CategoryDTO categoryDTO) {
-        categoryService.saveCategory(categoryDTO);
+//        categoryService.saveCategory(categoryDTO);
         return "redirect:/categories";
     }
 

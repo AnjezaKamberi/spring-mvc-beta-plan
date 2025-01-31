@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({CategoryFoundException.class, })
-    public void handleCategoryFoundException(CategoryFoundException categoryFoundException){
+    @ExceptionHandler({CategoryFoundException.class})
+    public String handleCategoryFoundException(CategoryFoundException categoryFoundException){
 //        if()
+        categoryFoundException.getMessage(); // shto si atribut ne nje Model
+        return "error";
     }
 }

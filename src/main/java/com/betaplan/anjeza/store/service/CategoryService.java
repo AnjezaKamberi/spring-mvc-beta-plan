@@ -42,7 +42,7 @@ public class CategoryService {
     }
     */
 
-    public CategoryDTO saveCategory(CategoryDTO categoryDTO) throws CategoryFoundException{
+    public CategoryDTO saveCategory(CategoryDTO categoryDTO) throws CategoryFoundException {
         Category category;
         if (Objects.nonNull(categoryDTO.getId())) {
             category =  categoryRepository.findById(categoryDTO.getId()).get();
